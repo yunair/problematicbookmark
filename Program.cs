@@ -23,19 +23,14 @@ try
 }
 catch (Exception ex)
 {
-    TraceLog.WriteLineError("Exception"+ex.Message);
+    TraceLog.WriteLineError("Exception" + ex.Message);
 }
 
 static async Task AnalyseBookMark(BookmarkOptions opts, ConfigurationProvider config)
 {
     ServiceCollectionExtension.ServiceCollection.RegisterConfigurationProvider(config)
-        .RegisterBookmarkOptions(opts).RegisterServices().StartUp(); 
+        .RegisterBookmarkOptions(opts).RegisterServices().StartUp();
 
-    var filterResults= await CallerContext.BookmarkManager.Scan();
+    var filterResults = await CallerContext.BookmarkManager.Scan();
     Utilities.Save(filterResults);
 }
-
-
-
-
-

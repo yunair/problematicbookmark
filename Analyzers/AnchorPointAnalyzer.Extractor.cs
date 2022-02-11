@@ -40,26 +40,24 @@
             {
                 return string.Empty;
             }
-           
-            var startIndex = str.IndexOf("#");
 
+            var startIndex = str.IndexOf("#");
             if (startIndex == -1)
             {
                 return string.Empty;
             }
 
-            var relativeUrl = str.Substring(0,startIndex);
-
+            var relativeUrl = str.Substring(0, startIndex);
             if (relativeUrl.Contains(".md")
                 || relativeUrl.Contains(".png")
                 || relativeUrl.Contains(".yml")
-                || startIndex==str.Length)
+                || startIndex == str.Length)
             {
                 return string.Empty;
             }
-            
-            var anchorPoint = str.Substring(startIndex+1);
-            if (anchorPoint.IndexOf("&")!=-1)
+
+            var anchorPoint = str.Substring(startIndex + 1);
+            if (anchorPoint.IndexOf("&") != -1)
             {
                 anchorPoint = anchorPoint.Substring(0, anchorPoint.IndexOf("&"));
             }
@@ -67,7 +65,7 @@
             return await Task.FromResult(anchorPoint);
         }
 
-        private async static Task<bool> IsMatch(string expresstion,string str)
+        private async static Task<bool> IsMatch(string expresstion, string str)
         {
             Regex reg = new Regex(expresstion);
             if (string.IsNullOrEmpty(str))

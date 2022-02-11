@@ -2,12 +2,8 @@
 {
     using System.Collections.Generic;
 
-    internal partial class AnchorPointAnalyzer:List<KeyValuePair<string, string>>
+    internal partial class AnchorPointAnalyzer : List<KeyValuePair<string, string>>
     {
-        public AnchorPointAnalyzer()
-        { 
-        }
-
         public async Task<List<KeyValuePair<string, string>>> Analysis(string filePath)
         {
             await LoadFile(filePath);

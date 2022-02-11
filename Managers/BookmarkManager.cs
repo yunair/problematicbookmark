@@ -18,10 +18,10 @@
             return this;
         }
 
-        private async Task ScanFile(string path,int dep=1)
+        private async Task ScanFile(string path, int dep = 1)
         {
             var filePaths = Directory.GetFiles(path, "*.md");
-            
+
             foreach (var filePath in filePaths)
             {
                 using (var trace = new TraceLog())
@@ -31,10 +31,9 @@
                         var bookmarkurl = await GetProblematicBookmark(filePath);
                         if (bookmarkurl != null && bookmarkurl.Count > 0)
                         {
-                            var str = Regex.Replace(@filePath, @"\\", @"\\"); 
                             Add(new FilterResult()
                             {
-                                MarkdownPath = str,
+                                MarkdownPath = filePath,
                                 Bookmarkurl = await GetProblematicBookmark(filePath)
                             });
                         }
@@ -54,15 +53,15 @@
             var dirs = Directory.GetDirectories(path);
             foreach (var dir in dirs)
             {
-                TraceLog.WriteLineInfo(GenarateDepStr(dep) + "|___" +dir.Replace(path,""));
-                await ScanFile(dir,dep+1);
+                TraceLog.WriteLineInfo(GenarateDepStr(dep) + "|___" + dir.Replace(path, ""));
+                await ScanFile(dir, dep + 1);
             }
         }
 
-        private string GenarateDepStr(int dep=1)
+        private string GenarateDepStr(int dep = 1)
         {
             StringBuilder sb = new StringBuilder();
-            for(var i=0;i<dep;i++)
+            for (var i = 0; i < dep; i++)
                 sb.Append("   ");
             return sb.ToString();
         }
@@ -72,14 +71,14 @@
             var problemmaticBookmarks = new List<string>();
             var bookmarks = await CallerContext.AnchorPointAnalyzer.Analysis(file);
             foreach (var bookmark in bookmarks)
-                    {
-                        var correct = await CallerContext.WebCrawlerAnalyzer.Validate(bookmark);
-                        if (!correct)
-                        {
-                            problemmaticBookmarks.Add(bookmark.Value);
-                        }
-                    }
-              
+            {
+                var correct = await CallerContext.WebCrawlerAnalyzer.Validate(bookmark);
+                if (!correct)
+                {
+                    problemmaticBookmarks.Add(bookmark.Value);
+                }
+            }
+
             return await Task.FromResult(problemmaticBookmarks);
         }
     }

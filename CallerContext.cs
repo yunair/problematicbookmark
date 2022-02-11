@@ -6,7 +6,7 @@
     using ProblematicBookmark.Models;
     using System;
 
-    internal class CallerContext:CallerContextBase
+    internal class CallerContext : CallerContextBase
     {
         public static BookmarkOptions BookmarkOptions => Resolve<BookmarkOptions>();
         public static ConfigurationProvider ConfigurationProvider => Resolve<ConfigurationProvider>();
@@ -25,7 +25,7 @@
             return Container.GetService(typeof(T)) as T;
         }
 
-        static AsyncLocal<IServiceProvider> AsyncLocal { get; }= new AsyncLocal<IServiceProvider>();
+        static AsyncLocal<IServiceProvider> AsyncLocal { get; } = new AsyncLocal<IServiceProvider>();
 
         public static IServiceProvider Container
         {
