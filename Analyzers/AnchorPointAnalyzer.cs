@@ -18,7 +18,7 @@
         private async Task OpenFile(string filePath)
         {
             string text = await File.ReadAllTextAsync(filePath);
-            await Extract(text);
+            Extract(text);
         }
     }
 }

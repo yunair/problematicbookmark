@@ -8,12 +8,12 @@
     {
         public async Task<bool> Validate(KeyValuePair<string, string> keyValuePair)
         {
-            var bookmarkUrl = await InferWebPageUrl(keyValuePair.Value);
+            var bookmarkUrl = InferWebPageUrl(keyValuePair.Value);
             var content = await CrawlContent(bookmarkUrl);
-            return await Exist(keyValuePair.Key, content);
+            return Exist(keyValuePair.Key, content);
         }
 
-        private async Task<string> InferWebPageUrl(string bookmarkUrl)
+        private string InferWebPageUrl(string bookmarkUrl)
         {
             if (string.IsNullOrEmpty(bookmarkUrl))
                 return string.Empty;
@@ -28,7 +28,7 @@
                 bookmarkUrl = "/" + bookmarkUrl;
             }
 
-            return await Task.FromResult(Constants.BookMarkUrlTemplate[CallerContext.ConfigurationProvider.Environment].TrimEnd('/') + bookmarkUrl);
+            return Constants.BookMarkUrlTemplate[CallerContext.ConfigurationProvider.Environment].TrimEnd('/') + bookmarkUrl;
         }
 
         private async Task<string> CrawlContent(string url)
@@ -49,17 +49,17 @@
             }
         }
 
-        private async Task<bool> Exist(string anchorPoint, string content)
+        private bool Exist(string anchorPoint, string content)
         {
             if (!string.IsNullOrEmpty(content) &&
                 (content.Contains("id=" + '"' + anchorPoint + '"')
                  || content.Contains("name=" + '"' + anchorPoint + '"')
                 ))
             {
-                return await Task.FromResult(true);
+                return true;
             }
 
-            return await Task.FromResult(false);
+            return false;
         }
     }
 }

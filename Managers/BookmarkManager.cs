@@ -76,7 +76,7 @@
                 }
             }
 
-            return await Task.FromResult(problemmaticBookmarks);
+            return problemmaticBookmarks;
         }
     }
 }
