@@ -1,4 +1,4 @@
-## This is a simple tool to find problematicbookmark
+## This is a simple tool to find problematic bookmark
 Steps:
 
 	1. Clone the repo to be scanned locally.
@@ -7,7 +7,7 @@ Steps:
 
 	3. Open command prompt, navigate to the directory where the ProblematicBookmark.exe is located, and execute it as follows.
 
-  		 ![image](https://raw.githubusercontent.com/yunair/problematicbookmark/feature/comet/example.png)
+![image](https://raw.githubusercontent.com/yunair/problematicbookmark/feature/comet/example.png)
 
    
 		 -p: Is the path of the folder to scan.
@@ -17,4 +17,3 @@ Steps:
 		 filterresult_XXX.json: bookmark with problem.
 
 		 tracelog_XXX.txt: simply record some exceptions.
-
