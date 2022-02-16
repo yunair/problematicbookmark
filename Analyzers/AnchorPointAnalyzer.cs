@@ -1,4 +1,4 @@
-﻿namespace ProblematicBookmark.Extractors
+﻿namespace ProblematicBookmark.Analyzers
 {
     using System.Collections.Generic;
 

@@ -1,8 +1,7 @@
 ﻿namespace ProblematicBookmark
 {
     using Microsoft.Extensions.DependencyInjection;
-    using ProblematicBookmark.Extractors;
-    using ProblematicBookmark.Extractors.WebCrawler;
+    using ProblematicBookmark.Analyzers;
     using ProblematicBookmark.Managers;
     using ProblematicBookmark.Models;
 

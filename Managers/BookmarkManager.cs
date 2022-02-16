@@ -1,10 +1,8 @@
 ﻿namespace ProblematicBookmark.Managers
 {
-    using Microsoft.Extensions.DependencyInjection;
     using ProblematicBookmark.Models;
     using System.Collections.Generic;
     using System.Text;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     internal class BookmarkManager : List<FilterResult>
@@ -13,7 +11,6 @@
         {
             string informationalString = $"[info] Scan {CallerContext.BookmarkOptions.ContentRepoLocalPath}";
             TraceLog.WriteLineInfo(informationalString);
-            //Console.WriteLine(informationalString);
             await ScanFile(CallerContext.BookmarkOptions.ContentRepoLocalPath);
             return this;
         }
@@ -34,7 +31,7 @@
                             Add(new FilterResult()
                             {
                                 MarkdownPath = filePath,
-                                Bookmarkurl = await GetProblematicBookmark(filePath)
+                                Bookmarkurl = bookmarkurl
                             });
                         }
 

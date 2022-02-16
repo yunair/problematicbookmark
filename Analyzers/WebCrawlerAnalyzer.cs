@@ -1,4 +1,4 @@
-﻿namespace ProblematicBookmark.Extractors.WebCrawler
+﻿namespace ProblematicBookmark.Analyzers
 {
     using Flurl.Http;
     using System.Collections.Generic;
@@ -17,6 +17,11 @@
         {
             if (string.IsNullOrEmpty(bookmarkUrl))
                 return string.Empty;
+
+            if (bookmarkUrl.StartsWith("https://docs.microsoft.com"))
+            {
+                return bookmarkUrl;
+            }
 
             if (!bookmarkUrl.StartsWith("/"))
             {
@@ -46,7 +51,10 @@
 
         private async Task<bool> Exist(string anchorPoint, string content)
         {
-            if (!string.IsNullOrEmpty(content) && content.Contains("id=" + '"' + anchorPoint + '"'))
+            if (!string.IsNullOrEmpty(content) &&
+                (content.Contains("id=" + '"' + anchorPoint + '"')
+                 || content.Contains("name=" + '"' + anchorPoint + '"')
+                ))
             {
                 return await Task.FromResult(true);
             }

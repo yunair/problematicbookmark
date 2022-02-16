@@ -1,10 +1,10 @@
-﻿namespace ProblematicBookmark.Extractors
+﻿namespace ProblematicBookmark.Analyzers
 {
     using System.Text.RegularExpressions;
 
     internal partial class AnchorPointAnalyzer
     {
-        private static readonly string Pattern = @"(?<=\()[^\<\(\)]+(?=\))";
+        private static readonly string Pattern = @"\]\((.*?)\)";
 
         private async Task Extract(string content)
         {
@@ -21,10 +21,10 @@
             var match = Regex.Match(content, Pattern);
             while (match.Success)
             {
-                var anchorPoint = await GetAnchorPoint(match.Groups[0].Value);
+                var anchorPoint = await GetAnchorPoint(match.Groups[1].Value);
                 if (!string.IsNullOrEmpty(anchorPoint))
                 {
-                    Add(KeyValuePair.Create(anchorPoint, match.Groups[0].Value));
+                    Add(KeyValuePair.Create(anchorPoint, match.Groups[1].Value));
                 }
 
                 match = match.NextMatch();
@@ -33,25 +33,19 @@
 
         private async static Task<string> GetAnchorPoint(string str)
         {
-            if (string.IsNullOrEmpty(str)
-                || str.StartsWith("https")
-                || str.StartsWith("http")
-                || !await IsMatch(@"^([/][a-zA-Z]|[a-zA-Z].*[/][a-zA-Z]).*", str))
+
+            if (string.IsNullOrEmpty(str) || !str.StartsWith("/"))
             {
                 return string.Empty;
+            }
+
+            if (str.StartsWith("https://docs.microsoft.com"))
+            {
+                return str;
             }
 
             var startIndex = str.IndexOf("#");
-            if (startIndex == -1)
-            {
-                return string.Empty;
-            }
-
-            var relativeUrl = str.Substring(0, startIndex);
-            if (relativeUrl.Contains(".md")
-                || relativeUrl.Contains(".png")
-                || relativeUrl.Contains(".yml")
-                || startIndex == str.Length)
+            if (startIndex == -1 || startIndex == str.Length)
             {
                 return string.Empty;
             }
@@ -63,17 +57,6 @@
             }
 
             return await Task.FromResult(anchorPoint);
-        }
-
-        private async static Task<bool> IsMatch(string expresstion, string str)
-        {
-            Regex reg = new Regex(expresstion);
-            if (string.IsNullOrEmpty(str))
-            {
-                return await Task.FromResult(false);
-            }
-
-            return await Task.FromResult(reg.IsMatch(str));
         }
     }
 }
