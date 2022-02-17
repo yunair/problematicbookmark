@@ -1,11 +1,11 @@
 ﻿namespace ProblematicBookmark.Analyzers
 {
-    using Flurl.Http;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     internal class WebCrawlerAnalyzer
     {
+        private static Lazy<HttpClient> _httpClient = new Lazy<HttpClient>();
         public async Task<bool> Validate(KeyValuePair<string, string> keyValuePair)
         {
             var bookmarkUrl = InferWebPageUrl(keyValuePair.Value);
@@ -40,12 +40,12 @@
 
             try
             {
-                var htmlString = await url.GetStringAsync();
+                var htmlString = await _httpClient.Value.GetStringAsync(url);
                 return htmlString;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(String.Format("url:{0} => Exception Message:{1}", url, ex.ToString()));
             }
         }
 
