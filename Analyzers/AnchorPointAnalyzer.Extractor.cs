@@ -45,12 +45,7 @@
                 return string.Empty;
             }
 
-            if (str.StartsWith("https://docs.microsoft.com"))
-            {
-                return str;
-            }
-
-            if (!str.StartsWith('/'))
+            if (!str.StartsWith('/') && !str.StartsWith("https://docs.microsoft.com"))
             {
                 return string.Empty;
             }
