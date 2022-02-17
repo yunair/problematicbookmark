@@ -39,18 +39,18 @@
                 return string.Empty;
             }
 
+            var startIndex = str.IndexOf("#");
+            if (startIndex == -1 || startIndex == str.Length - 1)
+            {
+                return string.Empty;
+            }
+
             if (str.StartsWith("https://docs.microsoft.com"))
             {
                 return str;
             }
 
             if (!str.StartsWith('/'))
-            {
-                return string.Empty;
-            }
-
-            var startIndex = str.IndexOf("#");
-            if (startIndex == -1 || startIndex == str.Length-1)
             {
                 return string.Empty;
             }
